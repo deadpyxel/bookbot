@@ -1,3 +1,5 @@
+from collections import Counter
+
 def read_file_contents(filepath: str) -> str:
     with open(filepath) as f:
         return f.read()
@@ -5,10 +7,28 @@ def read_file_contents(filepath: str) -> str:
 def count_words(string: str) -> int:
     return len(string.split())
 
-def main():
-    file_contents = read_file_contents("books/frankenstein.txt")
+def count_letters(string: str) -> dict[str, int]:
+    string = string.lower()
+    counter = Counter(string)
+    return dict(counter)
+
+def report_letter_freq(freq_dict: dict[str, int]) -> None:
+    freq_dict = dict(sorted(freq_dict.items(), reverse=True, key=lambda x: x[1]))
+    for ch, val in freq_dict.items():
+        if not ch.isalpha():
+            continue
+        print(f"The '{ch}' character was found {val} times")
+
+def main() -> int:
+    filepath = "books/frankenstein.txt"
+    file_contents = read_file_contents(filepath)
     print(file_contents)
-    print(f"Word count: {count_words(file_contents)}")
+    print(f"--- Begin report of {filepath} ---")
+    print(f"{count_words(file_contents)} words found in the document\n")
+    freq_dict = count_letters(file_contents)
+    report_letter_freq(freq_dict)
+    print("--- End report ---")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    exit(main())
