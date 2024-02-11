@@ -12,7 +12,9 @@ def count_letters(string: str) -> dict[str, int]:
     counter = Counter(string)
     return dict(counter)
 
-def report_letter_freq(freq_dict: dict[str, int]) -> None:
+def report_book_stats(file_contents: str) -> None:
+    print(f"{count_words(file_contents)} words found in the document\n")
+    freq_dict = count_letters(file_contents)
     freq_dict = dict(sorted(freq_dict.items(), reverse=True, key=lambda x: x[1]))
     for ch, val in freq_dict.items():
         if not ch.isalpha():
@@ -24,9 +26,7 @@ def main() -> int:
     file_contents = read_file_contents(filepath)
     print(file_contents)
     print(f"--- Begin report of {filepath} ---")
-    print(f"{count_words(file_contents)} words found in the document\n")
-    freq_dict = count_letters(file_contents)
-    report_letter_freq(freq_dict)
+    report_book_stats(file_contents)
     print("--- End report ---")
     return 0
 
